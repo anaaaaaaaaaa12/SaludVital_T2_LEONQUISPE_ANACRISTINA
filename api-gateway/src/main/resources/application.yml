@@ -1,0 +1,27 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            - id: doctores-service
+              uri: lb://doctores-service
+              predicates:
+                - Path=/api/doctores/**
+            - id: citas-service
+              uri: lb://citas-service
+              predicates:
+                - Path=/api/citas/**
+  main:
+    web-application-type: reactive
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    prefer-ip-address: true
